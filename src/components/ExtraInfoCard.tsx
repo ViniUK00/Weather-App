@@ -8,24 +8,31 @@ interface ExtraInfoCardProps {
   condition: string | undefined;
 }
 
+interface ShowLabelDataType {
+  label: string | undefined;
+  data: string | number | undefined;
+}
+
 const ExtraInfoCard: React.FC<ExtraInfoCardProps> = ({ city, temperature, condition }) => {
   return (
       <View style={styles.card}>
-      <Text style={styles.city}>{city}</Text>
-      <View style={styles.weatherInfo}>
-        <Text style={styles.temperature}>{`${(temperature - 273.15).toFixed(2)}°`}</Text>
+        <View style={styles.labe_data_container}>
+        <Text style={styles.label_text}>Wind</Text>
+        <Text style={styles.data_text}>{condition} m/h</Text>
+        </View>
       </View>
-    </View>
   );
 };
 
 const styles = StyleSheet.create({
   card: {
+    display:'flex',
+    flexDirection:'row',
     backgroundColor: 'white',
     padding: 20,
     borderRadius: 15,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     width: '90%',
     marginBottom: 20,
     shadowColor: '#000',
@@ -35,27 +42,19 @@ const styles = StyleSheet.create({
     elevation: 4,
     
   },
-  city: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color:'black'
+  labe_data_container:{
+    padding:4,
+    alignItems:'center',
   },
-  weatherInfo: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 15,
-    marginBottom: 15,
+  label_text:{
+    fontSize:15,
+    color: '#333333',
+    paddingBottom:7
   },
-  temperature: {
-    fontSize: 48,
-    marginLeft: 10,
-    color:'black'
-  },
-  condition: {
-    fontSize: 20,
-    marginTop: 10,
-    color: '#ffffff',
-  },
+  data_text:{
+    fontSize:17,
+    fontWeight:'bold'
+  }
 });
 
 export default ExtraInfoCard;

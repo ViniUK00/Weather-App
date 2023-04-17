@@ -7,7 +7,7 @@ export interface Weather {
       dt: number,
       temp: number,
       feels_like: number,
-      humidity: number,
+      humidity: any,
       uvi: number,
       weather: [
         {

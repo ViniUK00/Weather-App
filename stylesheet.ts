@@ -29,6 +29,19 @@ export const styles = StyleSheet.create({
     secondary_card:{
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    cityText: {
+      fontSize: 30,
+        marginTop: 5,
+        marginBottom: 5,
+        color:'black',
+      },
+    cityContainer:{
+      flex:0,
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginLeft:120,
+      marginRight:120,
     }
      
 

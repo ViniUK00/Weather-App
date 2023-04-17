@@ -12,17 +12,21 @@ import { styles } from '../../stylesheet';
 import { MaterialIcons } from '@expo/vector-icons';
 import Loading from '../components/Loading';
 import ExtraInfoCard from '../components/ExtraInfoCard';
+import Geocoder from 'react-native-geocoding';
 
 const HomeScreen = () => {
 
   const dispatch = useDispatch();
   const selectedPlace = useSelector(selectSelectedPlace);
   
+  const [city,setCity] = useState<any>(null);
   const [location, setLocation] = useState<Location.LocationObject | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   const lat = selectedPlace?.location.lat;
   const lng = selectedPlace?.location.lng;
+  console.log('hey',lat);
+  
   const [weatherData, setWeatherData] = useState<Weather | undefined>();
 
   useEffect(() => {
@@ -49,11 +53,13 @@ const HomeScreen = () => {
       setLocation(location);
     })();
   }, []);
+  console.log(location?.coords.longitude);
+  
 
   const useCurrentLocationHandler = async () => {
     if (location?.coords) {
       try {
-        const data = await getWeather(location.coords.latitude, location.coords.longitude);
+        const data = await getWeather(location?.coords.latitude, location?.coords.longitude);
         setWeatherData(data);
       } catch (error) {
         console.log(error);
@@ -61,8 +67,16 @@ const HomeScreen = () => {
     }
   };
 
-  console.log(selectedPlace);
+  console.log(weatherData?.lat);
   
+  Geocoder.init(GOOGLE_MAPS_APIKEY)
+  Geocoder.from(lat,lng)
+		.then(json => {
+        		const addressComponent = json.results[1];
+      setCity(addressComponent.address_components[2].long_name)
+		})
+		.catch(error => <Text>Not a city</Text>);
+
   return (
     <SafeAreaView>
       <View style={styles.searchAndIconContainer}>
@@ -89,14 +103,14 @@ const HomeScreen = () => {
         shadowOpacity:0.2
       },}}
         onPress={(data, details = null) => {
-          console.log(details?.geometry.location);
+          console.log('hey 2', details?.geometry.location);
 
           dispatch(
             setSelectedPlace({
-              location: details?.formatted_address,
+              location: details?.geometry.location
             })
           );
-          //dispatch(setSelectedPlace(null));
+          dispatch(setSelectedPlace(null));
         }}
         fetchDetails={true}
         enablePoweredByContainer={false}
@@ -112,12 +126,17 @@ const HomeScreen = () => {
       <MaterialIcons name="my-location" size={30} color='gray' />
       </Pressable>
       </View>
-      <View style={styles.card}>
-        {weatherData?<WeatherCard city={selectedPlace?.location} temperature={weatherData?.current.temp} condition={weatherData?.current.humidity}  />: <Loading />}
+      <View style={styles.cityContainer}><Text style={styles.cityText}>{city}</Text></View>
+      {weatherData?
+      <View>
+        <View style={styles.card}>
+        <WeatherCard city={lng} temperature={weatherData?.current.temp} condition={weatherData?.current.feels_like}  />
       </View>
       <View style={styles.secondary_card}>
-      {weatherData?<ExtraInfoCard city={selectedPlace?.location} temperature={weatherData?.current.temp} condition={weatherData?.current.humidity}  />: <Loading />}
+       <ExtraInfoCard city={selectedPlace?.location} temperature={weatherData?.current.temp} condition={weatherData?.current.humidity}  />
       </View>
+      </View> : <Loading />}
+      
     </SafeAreaView>
   );
 };

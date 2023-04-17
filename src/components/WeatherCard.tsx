@@ -6,7 +6,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 interface WeatherCardProps {
   city: string | undefined;
   temperature: number;
-  condition: string | undefined;
+  condition: number;
 }
 
 const WeatherCard: React.FC<WeatherCardProps> = ({ city, temperature, condition }) => {
@@ -14,9 +14,9 @@ const WeatherCard: React.FC<WeatherCardProps> = ({ city, temperature, condition 
       <LinearGradient colors={['#3f51b5', '#7986cb']} style={styles.card}>
       <Text style={styles.city}>{city}</Text>
       <View style={styles.weatherInfo}>
-        <Text style={styles.temperature}>{`${(temperature - 273.15).toFixed(2)}°`}</Text>
+        <Text style={styles.temperature}>{`${(temperature - 273.15).toFixed(0)}°`}</Text>
       </View>
-      <Text style={styles.condition}>{condition}</Text>
+      <Text style={styles.condition}>{`Feels like ${(condition - 273.15).toFixed(0)}°`}</Text>
     </LinearGradient>
   );
 };
