@@ -1,7 +1,9 @@
 // WeatherCard.tsx
 import React from 'react';
-import { View, Text, StyleSheet, Image, PanResponder } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 export interface WeatherCard {
   lat: number;
@@ -25,10 +27,20 @@ interface WeatherCardProps {
   icon: string;
 }
 
+type RootStackParamList = {
+  HomeScreen: undefined;
+  ChartScreen: undefined;
+};
+
+
+
 const WeatherCard: React.FC<WeatherCardProps> = ({ icon, temp, feels_like, main }) => {
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList, 'HomeScreen'>>();
   
   return (
-    <View style={styles.container}>
+    <TouchableOpacity
+      onPress={()=>{ navigation.navigate('ChartScreen')}}
+      style={styles.container}>
       <LinearGradient colors={['#3f51b5', '#7986cb']} style={styles.backround}>
         <View>
           
@@ -50,7 +62,7 @@ const WeatherCard: React.FC<WeatherCardProps> = ({ icon, temp, feels_like, main 
       </View>
       
     </LinearGradient>
-    </View>
+    </TouchableOpacity>
       
   );
 };

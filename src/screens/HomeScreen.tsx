@@ -17,6 +17,8 @@ import Forecast from '../components/Forecast';
 
 const HomeScreen = () => {
   Geocoder.init(GOOGLE_MAPS_APIKEY)
+  
+
 
   const dispatch = useDispatch();
   const selectedPlace = useSelector(selectSelectedPlace);
