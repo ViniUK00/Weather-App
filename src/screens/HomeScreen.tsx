@@ -13,8 +13,10 @@ import { MaterialIcons } from '@expo/vector-icons';
 import Loading from '../components/Loading';
 import ExtraInfoCard from '../components/ExtraInfoCard';
 import Geocoder from 'react-native-geocoding';
+import Forecast from '../components/Forecast';
 
 const HomeScreen = () => {
+  Geocoder.init(GOOGLE_MAPS_APIKEY)
 
   const dispatch = useDispatch();
   const selectedPlace = useSelector(selectSelectedPlace);
@@ -53,7 +55,7 @@ const HomeScreen = () => {
       setLocation(location);
     })();
   }, []);
-  console.log(location?.coords.longitude);
+  //console.log(location?.coords.longitude);
   
 
   const useCurrentLocationHandler = async () => {
@@ -61,6 +63,15 @@ const HomeScreen = () => {
       try {
         const data = await getWeather(location?.coords.latitude, location?.coords.longitude);
         setWeatherData(data);
+        const lat = location.coords.latitude
+      const lng = location.coords.longitude
+      Geocoder.from(lat,lng)
+		.then(json => {
+      const addressComponent = json.results[1];
+      setCity(addressComponent.address_components[3].long_name)      
+            
+		})
+		.catch(error => <Text>Not a city</Text>);
       } catch (error) {
         console.log(error);
       }
@@ -68,23 +79,24 @@ const HomeScreen = () => {
   };
 
   console.log(weatherData?.lat);
+
+  const mainWeather = weatherData?.current.weather[0].main;
+  console.log(mainWeather);
   
-  Geocoder.init(GOOGLE_MAPS_APIKEY)
   Geocoder.from(lat,lng)
 		.then(json => {
         		const addressComponent = json.results[1];
-      setCity(addressComponent.address_components[2].long_name)
+            setCity(addressComponent.address_components[3].long_name)      
 		})
 		.catch(error => <Text>Not a city</Text>);
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.screen}>
       <View style={styles.searchAndIconContainer}>
       <GooglePlacesAutocomplete
         placeholder={'Search for a city'}
         styles={{
           container:{
-          flex: 1,
           alignItems: 'center',
           justifyContent: 'center',
           paddingLeft:40,
@@ -128,16 +140,21 @@ const HomeScreen = () => {
       </View>
       <View style={styles.cityContainer}><Text style={styles.cityText}>{city}</Text></View>
       {weatherData?
-      <View>
         <View style={styles.card}>
-        <WeatherCard city={lng} temperature={weatherData?.current.temp} condition={weatherData?.current.feels_like}  />
-      </View>
-      <View style={styles.secondary_card}>
-       <ExtraInfoCard city={selectedPlace?.location} temperature={weatherData?.current.temp} condition={weatherData?.current.humidity}  />
-      </View>
+        <WeatherCard icon={weatherData?.current.weather[0].icon} temp={weatherData?.current.temp} feels_like={weatherData?.current.feels_like} main={weatherData?.current.weather[0].main} city={''}  />
+        <View style={{padding:10}}></View>
+       <ExtraInfoCard
+      city={selectedPlace?.location} 
+      temperature={weatherData?.current.temp} 
+      condition={weatherData?.current.humidity} 
+      data={[
+    { label: 'Wind', value: weatherData?.current.wind_speed, metric: 'mph' },
+    { label: 'Humidity', value: weatherData?.current.humidity, metric: '%' },
+    { label: 'Pressure', value: weatherData?.current.pressure, metric: 'hPa'},
+  ]}  />
+  <Forecast lat={weatherData?.lat} lng={weatherData?.lon} />
       </View> : <Loading />}
-      
-    </SafeAreaView>
+  </SafeAreaView>
   );
 };
 

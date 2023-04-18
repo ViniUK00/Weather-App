@@ -9,10 +9,13 @@ export interface Weather {
       feels_like: number,
       humidity: any,
       uvi: number,
+      wind_speed: string,
+      pressure: string
       weather: [
         {
           main: string,
-          description: string
+          description: string,
+          icon: string
         }
       ]
     }

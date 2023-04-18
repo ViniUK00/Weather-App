@@ -2,34 +2,33 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
+
 interface ExtraInfoCardProps {
-  city: string | undefined;
+  city: string;
   temperature: number;
-  condition: string | undefined;
+  condition: string;
+  data: Array<{ label: string; value: string | number; metric: string }>;
 }
 
-interface ShowLabelDataType {
-  label: string | undefined;
-  data: string | number | undefined;
-}
-
-const ExtraInfoCard: React.FC<ExtraInfoCardProps> = ({ city, temperature, condition }) => {
+const ExtraInfoCard: React.FC<ExtraInfoCardProps> = ({ city, temperature, condition, data }) => {
   return (
-      <View style={styles.card}>
-        <View style={styles.labe_data_container}>
-        <Text style={styles.label_text}>Wind</Text>
-        <Text style={styles.data_text}>{condition} m/h</Text>
+    <View style={styles.container}>
+      {data.map((item, index) => (
+        <View key={index} style={styles.labe_data_container}>
+          <Text style={styles.label_text}>{item.label}</Text>
+          <Text style={styles.data_text}>{item.value} {item.metric}</Text>
         </View>
-      </View>
+      ))}
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  card: {
+  container: {
     display:'flex',
     flexDirection:'row',
     backgroundColor: 'white',
-    padding: 20,
+    padding: 30,
     borderRadius: 15,
     alignItems: 'center',
     justifyContent: 'flex-start',
@@ -43,8 +42,12 @@ const styles = StyleSheet.create({
     
   },
   labe_data_container:{
-    padding:4,
+    padding:1,
+    flex:1,
     alignItems:'center',
+    justifyContent:'center',
+    alignSelf:'center',
+    flexDirection:'column',
   },
   label_text:{
     fontSize:15,

@@ -12,7 +12,6 @@ const Loading = () => {
           width: 200,
           height: 200
         }}
-        // Find more Lottie files at https://lottiefiles.com/featured
         source={require('../../assets/map-marker-spins.json')}
       />
     </View>

@@ -1,6 +1,11 @@
 import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
+  screen:{},
+  main_card:{
+      alignItems: 'center',
+        paddingTop:14,
+  },
     searchAndIconContainer: {
         display: 'flex',
         flexDirection: 'row',
@@ -22,27 +27,21 @@ export const styles = StyleSheet.create({
     },
     card:{
         alignItems: 'center',
-        justifyContent: 'center',
         paddingTop:14,
 
     },
     secondary_card:{
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
     },
     cityText: {
-      fontSize: 30,
+      fontSize: 25,
         marginTop: 5,
         marginBottom: 5,
         color:'black',
       },
     cityContainer:{
-      flex:0,
       alignItems: 'center',
-      justifyContent: 'center',
-      marginLeft:120,
-      marginRight:120,
+      justifyContent: 'flex-start',
     }
-     
-
 })
