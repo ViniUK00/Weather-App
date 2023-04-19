@@ -7,6 +7,8 @@ import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ChartScreen from './src/screens/ChartScreen';
+import SplashScreen from './src/screens/SplashScreen';
+import RootNavigator from './navigator/RootNavigator';
 
 
 export default function App() {
@@ -17,22 +19,7 @@ export default function App() {
       <NavigationContainer>
       <View style={{backgroundColor:'#F5F5F5', flex:1}}>
       <StatusBar style="auto" />
-      <Stack.Navigator>
-        <Stack.Screen 
-          name='HomeScreen'
-          component={HomeScreen}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen 
-          name='ChartScreen'
-          component={ChartScreen}
-          options={{
-            headerShown: true,
-          }}
-        />
-      </Stack.Navigator>
+      <RootNavigator />
       </View>
       </NavigationContainer>
     </Provider>

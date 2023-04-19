@@ -159,7 +159,7 @@ const HomeScreen = () => {
     { label: 'Humidity', value: weatherData?.current.humidity, metric: '%' },
     { label: 'Pressure', value: weatherData?.current.pressure, metric: 'hPa'},
   ]}  />
-  <Forecast lat={weatherData?.lat} lng={weatherData?.lon} />
+  <Forecast />
       </View> : <Loading />}
   </SafeAreaView>
   );
