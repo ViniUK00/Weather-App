@@ -29,7 +29,7 @@ export default function App() {
           name='ChartScreen'
           component={ChartScreen}
           options={{
-            headerShown: false,
+            headerShown: true,
           }}
         />
       </Stack.Navigator>

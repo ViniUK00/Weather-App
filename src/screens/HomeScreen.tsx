@@ -65,6 +65,11 @@ const HomeScreen = () => {
       try {
         const data = await getWeather(location?.coords.latitude, location?.coords.longitude);
         setWeatherData(data);
+        dispatch(
+          setSelectedPlace({
+            location: location?.coords
+          })
+        );
         const lat = location.coords.latitude
       const lng = location.coords.longitude
       Geocoder.from(lat,lng)
@@ -124,7 +129,7 @@ const HomeScreen = () => {
               location: details?.geometry.location
             })
           );
-          dispatch(setSelectedPlace(null));
+          // dispatch(setSelectedPlace(null));
         }}
         fetchDetails={true}
         enablePoweredByContainer={false}

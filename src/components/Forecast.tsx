@@ -48,7 +48,7 @@ const Forecast: React.FC<ForecastCardProps> = ({ lat, lng }) => {
               uri: `https://openweathermap.org/img/wn/${icon}@2x.png`,
             }}
           />
-          Range: {`${(minTemp - 273.15).toFixed(0)}°`}- {`${(maxTemp - 273.15).toFixed(0)}°`}
+          Range: {`${(minTemp - 273.15).toFixed(0)}°`} - {`${(maxTemp - 273.15).toFixed(0)}°`}
         </Text>
       );
     });
